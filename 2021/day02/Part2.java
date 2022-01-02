@@ -1,9 +1,9 @@
-public class Part1 {
+public class Part2 {
 
     public static void main(String[] args)
         throws SubmarineScriptException
     {
-        var sub = new Submarine1();
+        var sub = new Submarine2();
         var driver = new SubmarineController();
         var input = new java.util.Scanner(System.in);
         while (input.hasNext()) {

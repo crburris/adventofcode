@@ -1,20 +1,11 @@
-public class Submarine {
+public abstract class Submarine {
 
-    private int depth;
-    private int position;
+    protected int depth = 0;
+    protected int position = 0;
 
-    public Submarine() {
-        depth = 0;
-        position = 0;
-    }
-
-    public void down(int amount) {
-        depth += amount;
-    }
+    public abstract void down(int amount);
     
-    public void forward(int amount) {
-        position += amount;
-    }
+    public abstract void forward(int amount);
 
     public int getDepth() {
         return depth;
@@ -24,13 +15,6 @@ public class Submarine {
         return position;
     }
 
-    public void up(int amount) {
-        // make sure we don't go above sea level
-        if (amount > depth) {
-            depth = 0;
-        } else {
-            depth -= amount;
-        }
-    }
+    public abstract void up(int amount);
     
 }
