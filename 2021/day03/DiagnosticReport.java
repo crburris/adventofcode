@@ -1,9 +1,14 @@
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class DiagnosticReport {
 
     private int maxBitWidth = 0;
     private ArrayList<Integer> reportData = new ArrayList<>();
+
+    private interface LifeSupportSubsystem {
+	public int bit(int place, Collection<Integer> data);
+    }
 
     public void add(int datum) {
         reportData.add(datum);
@@ -28,9 +33,14 @@ public class DiagnosticReport {
 
     // Count data points with given bit set
     private int countSetBits(int place) {
+	return countSetBits(place, reportData);
+    }
+
+    // Count elements with given bit set in collection
+    private int countSetBits(int place, Iterable<Integer> data) {
         final int bitmask = 1 << place;
         int count = 0;
-        for (int datum : reportData) {
+        for (int datum : data) {
             if ((datum & bitmask) != 0) {
                 count++;
             }
@@ -72,5 +82,56 @@ public class DiagnosticReport {
         }
         return gamma;
     }
+
+    private boolean matchingBits(int mask, int a, int b) {
+	return (a & mask) == (b & mask);
+    }
+
+    private int oxygenBit(int place, Collection<Integer> data) {
+	if (countSetBits(place, data) < (data.size() + 1) / 2) {
+	    // minority set, keep cleared bit
+	    return 0;
+	} else {
+	    // majority set, keep set bit
+	    return 1 << place;
+	}
+    }
+
+    public int lifeSupportRating() {
+	return oxygenRating() * scrubberRating();
+    }
+
+    private int lifeSupportSubsystemRating(LifeSupportSubsystem criteria) {
+	ArrayList<Integer> filteredData = new ArrayList<>(reportData);
+	for (int filterBit = maxBitWidth - 1;
+	     filterBit >= 0 && filteredData.size() > 1;
+	     filterBit--)
+	{
+	    final int filterMask = criteria.bit(filterBit, filteredData);
+	    final int matchMask = 1 << filterBit;
+	    filteredData.removeIf(
+		datum -> !matchingBits(matchMask, datum, filterMask)
+	    );
+	}
+	return filteredData.get(0);
+    }
     
+    public int oxygenRating() {
+	return lifeSupportSubsystemRating(this::oxygenBit);
+    }
+
+    private int scrubberBit(int place, Collection<Integer> data) {
+	if (countSetBits(place, data) < (data.size() + 1) / 2) {
+	    // minority set, keep set bit
+	    return 1 << place;
+	} else {
+	    // majority set, keep cleared bit
+	    return 0;
+	}
+    }
+
+    public int scrubberRating() {
+	return lifeSupportSubsystemRating(this::scrubberBit);
+    }
+
 }
