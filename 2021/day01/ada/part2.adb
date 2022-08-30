@@ -4,7 +4,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 procedure Part2 is
 
    subtype Depth is Integer;
-   type Sample_Index is new Natural range 1 .. 3;
+   type Sample_Index is mod 3;
    type Sample_Window is array (Sample_Index) of Depth;
    type Sliding_Sample is record
       Items : Sample_Window;
@@ -14,11 +14,7 @@ procedure Part2 is
    procedure Add(Item : in Depth; Sample : in out Sliding_Sample) is
    begin
       Sample.Items(Sample.Oldest_Item) := Item;
-      if Sample.Oldest_Item = Sample.Items'Last then
-         Sample.Oldest_Item := Sample.Items'First;
-      else
-         Sample.Oldest_Item := Sample.Oldest_Item + 1;
-      end if;
+      Sample.Oldest_Item := Sample.Oldest_Item + 1;
    end Add;
 
    function Sum(Sample : in Sliding_Sample) return Depth is
