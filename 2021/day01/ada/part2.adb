@@ -11,7 +11,7 @@ procedure Part2 is
       Oldest_Item : Sample_Index;
    end record;
 
-   procedure Add (Item : in Depth; Sample : in out Sliding_Sample) is
+   procedure Add(Item : in Depth; Sample : in out Sliding_Sample) is
    begin
       Sample.Items(Sample.Oldest_Item) := Item;
       if Sample.Oldest_Item = Sample.Items'Last then
@@ -21,11 +21,11 @@ procedure Part2 is
       end if;
    end Add;
 
-   function Sum (Sample : in Sliding_Sample) return Depth is
+   function Sum(Sample : in Sliding_Sample) return Depth is
       Result : Depth := 0;
    begin
-      for Index in Sample.Items'Range loop
-         Result := Result + Sample.Items(Index);
+      for Item of Sample.Items loop
+         Result := Result + Item;
       end loop;
       return Result;
    end Sum;
@@ -35,8 +35,8 @@ procedure Part2 is
    Sample : Sliding_Sample;
    Next_Depth : Depth;
 begin
-   for Index in Sample.Items'Range loop
-      Get(Sample.Items(Index));
+   for Item of Sample.Items loop
+      Get(Item);
    end loop;
    Sample.Oldest_Item := Sample.Items'First;
    Next_Sum := Sum(Sample);
