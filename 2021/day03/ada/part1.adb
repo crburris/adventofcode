@@ -13,6 +13,8 @@ begin
    Gamma := Gamma_Rate(Sub_Diag);
    Epsilon := Epsilon_Rate(Sub_Diag);
    Power_Consumption := Natural(Gamma) * Natural(Epsilon);
+   Put_Line("G:" & Natural'Image(Natural(Gamma)));
+   Put_Line("E:" & Natural'Image(Natural(Epsilon)));
    Put(Power_Consumption, Width => 0);
    New_Line;
 end Part1;
