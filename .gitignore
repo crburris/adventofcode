@@ -1,5 +1,6 @@
 *.ali
 *.class
+*.fasl
 *.o
 part1
 part2
