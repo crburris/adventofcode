@@ -37,4 +37,4 @@
   (with-open-file (input input-path)
     (count-if (lambda (report)
                 (safe-report-p report 1 3))
-            (read-reports input))))
+              (read-reports input))))
